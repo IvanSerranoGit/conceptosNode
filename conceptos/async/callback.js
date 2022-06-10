@@ -1,28 +1,53 @@
-function soyAsincrona(miCallBack) {
+function hola(nombre, miCallback) {
+    setTimeout(function () {
+        console.log('Hola, '+ nombre);
+        miCallback(nombre);
+    }, 1500);
+}
+
+function hablar(callbackHablar) {
     setTimeout(function() {
-        console.log("Estoy siendo asincrona");
-        miCallBack();
-    }, 1000)
+        console.log('Bla bla bla bla...');
+        callbackHablar();
+    }, 1000);
 }
-function hola(nombre, nueviCallBack) {
-    setTimeout(function(){
-        console.log('Hola, ' + nombre);
-        nueviCallBack();
-    }, 1000)
+
+function adios(nombre, otroCallback) {
+    setTimeout(function() {
+        console.log('Adios', nombre);
+        otroCallback();
+    }, 1000);
 }
-function adios(nombre, otroCallBack) {
-    setTimeout(function(){
-        console.log("adios " + nombre);
-        otroCallBack();
-    }, 1000)
+
+//En esta parte del código uso funciones recursivas porque estoy llamando a conversacion dentro de si misma. y mediante un If como estructura de control le digo que cantidad de veces va a  ejectuarse la funcion hablar.
+function conversacion(nombre, veces, callback) {
+    if (veces > 0) {
+        hablar(function () {
+            conversacion(nombre, --veces, callback);
+        })
+    } else {
+        adios(nombre, callback);
+    }
 }
-console.log("Iniciando proceso...");
-// soyAsincrona(function(){
-//     console.log("Terminando proceso");
-// });
-hola('Iv´án', function() {
-    adios("Iàn", function(){
-        console.log("Terminando proceso");
-         
+
+// --
+
+console.log('Iniciando proceso...');
+hola('Aleajandro-sin', function (nombre) {
+    conversacion(nombre, 10, function() {
+        console.log('Proceso terminado');
     });
 });
+
+/****************HELL**********************/
+// hola('Alejandro', function (nombre) {
+//     hablar(function () {
+//         hablar(function () {
+//             hablar(function () {
+//                 adios(nombre, function() {
+//                     console.log('Terminando proceso...');
+//                 });
+//             });
+//         });
+//     });
+// });
